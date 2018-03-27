@@ -81,8 +81,10 @@ class Tmsm_Woocommerce_Onsale_Badge_Public {
 	 */
 	public function checkdiscounts(){
 
-		error_log('checkdiscounts()');
-		error_log('date: '.date('Y-m-d'));
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			error_log('checkdiscounts()');
+			error_log('date: '.date('Y-m-d'));
+		}
 
 		$tmsm_woocommerce_onsale_badge_lastcheck = get_option('tmsm_woocommerce_onsale_badge_lastcheck', false);
 
@@ -95,13 +97,17 @@ class Tmsm_Woocommerce_Onsale_Badge_Public {
 
 		// Check if the last checked value was created
 		if($tmsm_woocommerce_onsale_badge_lastcheck == false){
-			error_log('check not initiated yet');
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				error_log('Check not initiated yet');
+			}
 		}
 
 		// Check if last check was already done today
 		if($tmsm_woocommerce_onsale_badge_lastcheck == date('Y-m-d')){
-			error_log('check already done today');
-			//return;
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				error_log('Check already done today');
+			}
+			return;
 		}
 
 		self::findallproducts();
@@ -112,7 +118,9 @@ class Tmsm_Woocommerce_Onsale_Badge_Public {
 	 * Find all products
 	 */
 	private function findallproducts(){
-		error_log('createproductmeta()');
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			error_log('createproductmeta()');
+		}
 
 		$active_products = get_posts([
 			'post_type' => 'product',
@@ -122,8 +130,9 @@ class Tmsm_Woocommerce_Onsale_Badge_Public {
 
 		if(is_array($active_products)){
 			foreach($active_products as $product){
-				error_log(' ('.$product->ID.') '.$product->post_title );
-
+				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+					error_log(' ('.$product->ID.') '.$product->post_title );
+				}
 				self::createproductmeta($product->ID);
 			}
 		}
@@ -155,7 +164,9 @@ class Tmsm_Woocommerce_Onsale_Badge_Public {
 					$wcpd_discount_rule_active = true;
 
 					$wcdpd_conditions = @$wcdpd_rule['conditions'];
-					error_log('RULE: '.$wcdpd_rule['public_note'] );
+					if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+						error_log('Rule: '.$wcdpd_rule['public_note'] );
+					}
 					if ( @$wcdpd_rule['exclusivity'] !== 'disabled' ) {
 
 
@@ -168,10 +179,13 @@ class Tmsm_Woocommerce_Onsale_Badge_Public {
 								if ( @$wcdpd_condition['type'] == 'product__product' && @$wcdpd_condition['method_option'] == 'in_list' ) {
 									if ( is_array( @$wcdpd_condition['products'] )
 									     && in_array( $product_id, @$wcdpd_condition['products'] ) ) {
-
-										error_log("product " . $product_id . " is in list");
+										if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+											error_log("product " . $product_id . " is in list");
+										}
 									} else {
-										error_log("product " . $product_id . " is NOT in list");
+										if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+											error_log("product " . $product_id . " is NOT in list");
+										}
 										$wcpd_discount_rule_active = false;
 									}
 								}
@@ -180,9 +194,13 @@ class Tmsm_Woocommerce_Onsale_Badge_Public {
 								if ( @$wcdpd_condition['type'] == 'time__date' && @$wcdpd_condition['method_option'] == 'from' ) {
 									if ( ! empty( @$wcdpd_condition['date'] ) ) {
 										if ( date( 'Y-m-d' ) >= $wcdpd_condition['date'] ) {
-											error_log("date aujourdhui apres debut");
+											if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+												error_log("today after begin");
+											}
 										} else {
-											error_log("date aujourdhui avant debut donc pas valide");
+											if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+												error_log("today before begin");
+											}
 											$wcpd_discount_rule_active = false;
 										}
 									}
@@ -193,9 +211,13 @@ class Tmsm_Woocommerce_Onsale_Badge_Public {
 
 									if ( ! empty( @$wcdpd_condition['date'] ) ) {
 										if ( date( 'Y-m-d' ) < $wcdpd_condition['date'] ) {
-											error_log("date aujourdhui avant fin");
+											if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+												error_log("today before end");
+											}
 										} else {
-											error_log("date aujourdhui apres fin donc pas valide");
+											if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+												error_log("today after end");
+											}
 											$wcpd_discount_rule_active = false;
 										}
 									}
@@ -220,11 +242,15 @@ class Tmsm_Woocommerce_Onsale_Badge_Public {
 						}
 
 					} else {
-						error_log("Rule inactive");
+						if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+							error_log("Rule inactive");
+						}
 						$wcpd_discount_rule_active = false;
 					}
 					if ( $wcpd_discount_rule_active == true ) {
-						error_log("DISCOUNT RULE ACTIF pour ce produit");
+						if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+							error_log("Discount rule active for this product");
+						}
 
 						$wcpd_discount_active = true;
 						break;
@@ -235,14 +261,19 @@ class Tmsm_Woocommerce_Onsale_Badge_Public {
 
 
 			if ( $wcpd_discount_active == true ) {
-				error_log(">>>> DISCOUNT ACTIF pour ce produit");
+				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+					error_log("Discount active for this product");
+				}
 				update_post_meta( $product_id, '_tmsm_woocommerce_onsale_badge', @$wcdpd_rule['badge'] );
 				update_post_meta( $product_id, '_tmsm_woocommerce_onsale_alert', @$wcdpd_rule['alert'] );
 
 				// Update transient "wc_products_onsale"
 				$product_ids_on_sale = get_transient( 'wc_products_onsale' );
-				$product_ids_on_sale[] = $product_id;
-				set_transient( 'wc_products_onsale', $product_ids_on_sale, DAY_IN_SECONDS * 30 );
+				if(!in_array($product_id, $product_ids_on_sale)){
+					$product_ids_on_sale[] = $product_id;
+					set_transient( 'wc_products_onsale', $product_ids_on_sale, DAY_IN_SECONDS * 30 );
+			    }
+
 			}
 
 		}
