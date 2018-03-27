@@ -148,8 +148,6 @@ class Tmsm_Woocommerce_Onsale_Badge_Public {
 	 */
 	private function createproductmeta($product_id){
 
-
-
 		$wcdpd_settings = get_option('rp_wcdpd_settings', false);
 
 		// WooCommerce Dynamic Pricing and Discounts found
@@ -180,11 +178,11 @@ class Tmsm_Woocommerce_Onsale_Badge_Public {
 									if ( is_array( @$wcdpd_condition['products'] )
 									     && in_array( $product_id, @$wcdpd_condition['products'] ) ) {
 										if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-											error_log("product " . $product_id . " is in list");
+											error_log("Product " . $product_id . " is in list");
 										}
 									} else {
 										if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-											error_log("product " . $product_id . " is NOT in list");
+											error_log("Product " . $product_id . " is NOT in list");
 										}
 										$wcpd_discount_rule_active = false;
 									}
@@ -195,11 +193,11 @@ class Tmsm_Woocommerce_Onsale_Badge_Public {
 									if ( ! empty( @$wcdpd_condition['date'] ) ) {
 										if ( date( 'Y-m-d' ) >= $wcdpd_condition['date'] ) {
 											if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-												error_log("today after begin");
+												error_log("Today after begin");
 											}
 										} else {
 											if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-												error_log("today before begin");
+												error_log("Today before begin");
 											}
 											$wcpd_discount_rule_active = false;
 										}
@@ -212,11 +210,11 @@ class Tmsm_Woocommerce_Onsale_Badge_Public {
 									if ( ! empty( @$wcdpd_condition['date'] ) ) {
 										if ( date( 'Y-m-d' ) < $wcdpd_condition['date'] ) {
 											if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-												error_log("today before end");
+												error_log("Today before end");
 											}
 										} else {
 											if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-												error_log("today after end");
+												error_log("Today after end");
 											}
 											$wcpd_discount_rule_active = false;
 										}
@@ -279,7 +277,6 @@ class Tmsm_Woocommerce_Onsale_Badge_Public {
 		}
 	}
 
-
 	/**
 	 * Product is on sale?
 	 *
@@ -339,7 +336,6 @@ class Tmsm_Woocommerce_Onsale_Badge_Public {
 
 		return $classes;
 	}
-
 
 	/**
 	 * Display alert if BOGO sale
