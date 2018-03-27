@@ -175,6 +175,8 @@ class Tmsm_Woocommerce_Onsale_Badge {
 		$this->loader->add_action( 'tmsmwoocommerceonsalebadge_cronaction', $plugin_public, 'checkdiscounts' );
 		$this->loader->add_action( 'woocommerce_product_is_on_sale', $plugin_public, 'display_badge',10 ,2 );
 		$this->loader->add_filter( 'post_class', $plugin_public, 'product_post_class',30 ,3 );
+		$this->loader->add_action( 'woocommerce_single_product_summary', $plugin_public, 'display_alert',25  );
+		$this->loader->add_action( 'ocean_after_single_product_excerpt', $plugin_public, 'display_alert',20  );
 
 	}
 

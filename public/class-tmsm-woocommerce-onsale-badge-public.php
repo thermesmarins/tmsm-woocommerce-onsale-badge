@@ -81,7 +81,6 @@ class Tmsm_Woocommerce_Onsale_Badge_Public {
 	 */
 	public function checkdiscounts(){
 
-
 		error_log('checkdiscounts()');
 		error_log('date: '.date('Y-m-d'));
 
@@ -216,7 +215,7 @@ class Tmsm_Woocommerce_Onsale_Badge_Public {
 							     && @$wcdpd_rule['bogo_receive_quantity'] == 1 ) {
 
 								$wcdpd_rule['badge'] = __( '2 for 1', 'tmsm-woocommerce-onsale-badge' );
-								$wcdpd_rule['alert'] = sprintf( '<div class="wcdpd-rule-alert"><b>%s</b><br>%s</div>', $wcdpd_rule['note'], $wcdpd_rule['public_note'] );
+								$wcdpd_rule['alert'] = $wcdpd_rule['public_note'];
 							}
 						}
 
@@ -263,6 +262,18 @@ class Tmsm_Woocommerce_Onsale_Badge_Public {
 	}
 
 	/**
+	 * Product sale alert message
+	 *
+	 * @param WC_Product $product
+	 *
+	 * @return string
+	 */
+	private function get_alert($product){
+		$alert = $product->get_meta('_tmsm_woocommerce_onsale_alert', true);
+		return $alert;
+	}
+
+	/**
 	 * Display badge if is on sale with rule
 	 *
 	 * @param bool $on_sale
@@ -297,4 +308,24 @@ class Tmsm_Woocommerce_Onsale_Badge_Public {
 
 		return $classes;
 	}
+
+
+	/**
+	 * Display alert if BOGO sale
+	 */
+	public function display_alert(){
+		global $product;
+
+		$specialrule_is_on_sale = self::specialrule_is_on_sale($product);
+
+		if($specialrule_is_on_sale) {
+			$alert = self::get_alert( $product );
+			if ( ! empty( $alert ) ) {
+				echo sprintf( '<p class="woocommerce-info woocommerce-specialsale">%s</p>', $alert );
+			}
+		}
+
+	}
+
+
 }

@@ -1,3 +1,6 @@
 .woocommerce ul.products li.product.special-sale del{
   display: none;
 }
+.single-product .product.special-sale del{
+  display: none;
+}
