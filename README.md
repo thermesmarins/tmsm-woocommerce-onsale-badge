@@ -10,4 +10,5 @@ Features
 * Single Product Alert
 * Compatible with Dynamic Pricing & Discounts plugin
 * Cron that insert product meta daily
+* Only works for main language of website (not compatible with WPML or Polylang)
 

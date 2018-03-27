@@ -1,4 +1,3 @@
-/**
- * All of the CSS for your public-facing functionality should be
- * included in this file.
- */
+.woocommerce ul.products li.product.special-sale del{
+  display: none;
+}
