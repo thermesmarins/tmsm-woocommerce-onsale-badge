@@ -30,7 +30,7 @@ class Tmsm_Woocommerce_Onsale_Badge_Deactivator {
 	 * @since    1.0.0
 	 */
 	public static function deactivate() {
-
+		wp_clear_scheduled_hook('tmsmwoocommerceonsalebadge_cronaction');
 	}
 
 }

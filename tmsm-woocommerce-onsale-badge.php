@@ -1,13 +1,6 @@
 <?php
 
 /**
- * The plugin bootstrap file
- *
- * This file is read by WordPress to generate the plugin information in the plugin
- * admin area. This file also includes all of the dependencies used by the plugin,
- * registers the activation and deactivation functions, and defines a function
- * that starts the plugin.
- *
  * @link              https://github.com/nicomollet
  * @since             1.0.0
  * @package           Tmsm_Woocommerce_Onsale_Badge
@@ -15,14 +8,17 @@
  * @wordpress-plugin
  * Plugin Name:       TMSM WooCommerce On Sale Badge
  * Plugin URI:        https://github.com/thermesmarins/tmsm-woocommerce-onsale-badge
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Description:       WooCommerce on sale badge and alert compatible with Dynamic Pricing & Discounts plugin
  * Version:           1.0.0
  * Author:            Nicolas Mollet
  * Author URI:        https://github.com/nicomollet
+ * Requires PHP:      5.6
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       tmsm-woocommerce-onsale-badge
  * Domain Path:       /languages
+ * Github Plugin URI: https://github.com/thermesmarins/tmsm-woocommerce-onsale-badge
+ * Github Branch:     master
  */
 
 // If this file is called directly, abort.
@@ -35,7 +31,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'PLUGIN_NAME_VERSION', '1.0.0' );
+define( 'TMSM_WOOCOMMERCE_ONSALE_BADGE_VERSION', '1.0.0' );
 
 /**
  * The code that runs during plugin activation.

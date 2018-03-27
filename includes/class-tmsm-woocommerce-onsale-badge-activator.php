@@ -30,7 +30,7 @@ class Tmsm_Woocommerce_Onsale_Badge_Activator {
 	 * @since    1.0.0
 	 */
 	public static function activate() {
-
+		wp_schedule_event( time(), 'hourly', 'tmsmwoocommerceonsalebadge_cronaction' );
 	}
 
 }

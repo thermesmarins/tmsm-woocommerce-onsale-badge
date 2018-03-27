@@ -73,7 +73,7 @@ class Tmsm_Woocommerce_Onsale_Badge_Public {
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/tmsm-woocommerce-onsale-badge-public.css', array(), $this->version, 'all' );
+		//wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/tmsm-woocommerce-onsale-badge-public.css', array(), $this->version, 'all' );
 
 	}
 
@@ -96,8 +96,35 @@ class Tmsm_Woocommerce_Onsale_Badge_Public {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/tmsm-woocommerce-onsale-badge-public.js', array( 'jquery' ), $this->version, false );
+		//wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/tmsm-woocommerce-onsale-badge-public.js', array( 'jquery' ), $this->version, false );
 
+	}
+
+	/**
+	 * Check if discounts have been applied
+	 */
+	public function checkdiscounts(){
+
+
+		error_log('checkdiscounts()');
+		error_log('date: '.date('Y-m-d'));
+
+		$tmsm_woocommerce_onsale_badge_lastcheck = get_option('tmsm_woocommerce_onsale_badge_lastcheck', false);
+
+		// Check if the last checked value was created
+		if($tmsm_woocommerce_onsale_badge_lastcheck == false){
+			error_log('check not initiated yet');
+			return;
+		}
+
+		// Check if last check was already done today
+		if($tmsm_woocommerce_onsale_badge_lastcheck == date('Y-m-d')){
+			error_log('check already done today');
+			return;
+		}
+
+		// Update last check value
+		update_option( 'tmsm_woocommerce_onsale_badge_lastcheck', date('Y-m-d'), false);
 	}
 
 }

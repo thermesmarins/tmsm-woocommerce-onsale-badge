@@ -67,8 +67,8 @@ class Tmsm_Woocommerce_Onsale_Badge {
 	 * @since    1.0.0
 	 */
 	public function __construct() {
-		if ( defined( 'PLUGIN_NAME_VERSION' ) ) {
-			$this->version = PLUGIN_NAME_VERSION;
+		if ( defined( 'TMSM_WOOCOMMERCE_ONSALE_BADGE_VERSION' ) ) {
+			$this->version = TMSM_WOOCOMMERCE_ONSALE_BADGE_VERSION;
 		} else {
 			$this->version = '1.0.0';
 		}
@@ -172,6 +172,7 @@ class Tmsm_Woocommerce_Onsale_Badge {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		$this->loader->add_action( 'tmsmwoocommerceonsalebadge_cronaction', $plugin_public, 'checkdiscounts' );
 
 	}
 
