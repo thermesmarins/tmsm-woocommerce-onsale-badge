@@ -170,13 +170,20 @@ class Tmsm_Woocommerce_Onsale_Badge {
 
 		$plugin_public = new Tmsm_Woocommerce_Onsale_Badge_Public( $this->get_plugin_name(), $this->get_version() );
 
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
-		$this->loader->add_action( 'tmsmwoocommerceonsalebadge_cronaction', $plugin_public, 'checkdiscounts' );
-		$this->loader->add_action( 'woocommerce_product_is_on_sale', $plugin_public, 'display_badge',10 ,2 );
-		$this->loader->add_filter( 'post_class', $plugin_public, 'product_post_class',30 ,3 );
-		$this->loader->add_action( 'woocommerce_single_product_summary', $plugin_public, 'display_alert',25  );
-		$this->loader->add_action( 'ocean_after_single_product_excerpt', $plugin_public, 'display_alert',20  );
+		// check for plugin using plugin name
+		if ( is_plugin_active( 'wc-dynamic-pricing-and-discounts/wc-dynamic-pricing-and-discounts.php' ) ) {
+			$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
+			$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+
+			$this->loader->add_action( 'tmsmwoocommerceonsalebadge_cronaction', $plugin_public, 'checkdiscounts' );
+
+			$this->loader->add_action( 'woocommerce_product_is_on_sale', $plugin_public, 'display_badge',10 ,2 );
+			$this->loader->add_filter( 'post_class', $plugin_public, 'product_post_class',30 ,3 );
+			$this->loader->add_action( 'woocommerce_single_product_summary', $plugin_public, 'display_alert',25  );
+			$this->loader->add_action( 'ocean_after_single_product_excerpt', $plugin_public, 'display_alert',20  );
+			$this->loader->add_action( 'woocommerce_sale_flash', $plugin_public, 'custom_badge',20, 3  );
+		}
+
 
 	}
 

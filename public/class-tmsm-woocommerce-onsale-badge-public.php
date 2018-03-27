@@ -112,6 +112,11 @@ class Tmsm_Woocommerce_Onsale_Badge_Public {
 
 		self::findallproducts();
 
+		// Clear cache
+		if ( function_exists( 'rocket_clean_domain' ) ) {
+			rocket_clean_domain();
+		}
+
 	}
 
 	/**
@@ -290,6 +295,18 @@ class Tmsm_Woocommerce_Onsale_Badge_Public {
 	}
 
 	/**
+	 * Product sale badge message
+	 *
+	 * @param WC_Product $product
+	 *
+	 * @return string
+	 */
+	private function get_badge($product){
+		$badge = $product->get_meta('_tmsm_woocommerce_onsale_badge', true);
+		return $badge;
+	}
+
+	/**
 	 * Product sale alert message
 	 *
 	 * @param WC_Product $product
@@ -355,4 +372,20 @@ class Tmsm_Woocommerce_Onsale_Badge_Public {
 	}
 
 
+	/**
+	 * Custom badge, change "On sale" badge with custom badge
+	 *
+	 * @param string $text
+	 * @param WP_Post $post
+	 * @param WC_Product $product
+	 *
+	 * @return string
+	 */
+	public function custom_badge($text, $post, $product){
+
+		if(self::specialrule_is_on_sale($product)){
+			$text = sprintf('<span class="onsale">%s</span>', self::get_badge($product));
+		}
+		return $text;
+	}
 }
