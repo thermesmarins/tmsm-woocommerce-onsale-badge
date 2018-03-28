@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TMSM WooCommerce On Sale Badge\n"
-"POT-Creation-Date: 2018-03-27 14:47+0200\n"
+"POT-Creation-Date: 2018-03-28 11:02+0200\n"
 "PO-Revision-Date: 2014-10-24 21:08+0100\n"
 "Last-Translator: Nicolas Mollet <nico.mollet@gmail.com>\n"
 "Language-Team: https://github.com/thermesmarins/\n"
@@ -18,6 +18,12 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPath-1: ..\n"
 
-#: ../public/class-tmsm-woocommerce-onsale-badge-public.php:242
+#: ../public/class-tmsm-woocommerce-onsale-badge-public.php:301
 msgid "2 for 1"
+msgstr ""
+
+#: ../public/class-tmsm-woocommerce-onsale-badge-public.php:302
+msgid ""
+"Simply put 2 products in your cart, and the discount will apply "
+"automatically."
 msgstr ""

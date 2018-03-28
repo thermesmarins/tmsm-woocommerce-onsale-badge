@@ -8,7 +8,7 @@ Features
 
 * On sale badges
 * Single Product Alert
-* Compatible with Dynamic Pricing & Discounts plugin
-* Cron that insert product meta daily
+* Compatible with Dynamic Pricing & Discounts plugin, for Buy One Get One sales
+* Cron that insert product meta daily (clears WP Rocket cache, and preload cache)
 * Only works for main language of website (not compatible with WPML or Polylang)
 

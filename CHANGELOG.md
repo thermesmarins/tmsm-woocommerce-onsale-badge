@@ -1,5 +1,6 @@
 ### Unreleased ###
 * Cache preloading
+* Update FR translation
 
 ### 1.0.1: March 28th, 2018
 * Remove sales at execution of cron
