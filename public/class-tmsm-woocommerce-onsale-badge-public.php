@@ -82,35 +82,38 @@ class Tmsm_Woocommerce_Onsale_Badge_Public {
 	public function checkdiscounts(){
 
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-			error_log('checkdiscounts()');
-			error_log('date: '.date('Y-m-d'));
+			error_log('Function checkdiscounts()');
+			error_log('Date: '.date('Y-m-d'));
 		}
 
 		$tmsm_woocommerce_onsale_badge_lastcheck = get_option('tmsm_woocommerce_onsale_badge_lastcheck', false);
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			error_log('Last check date: '.$tmsm_woocommerce_onsale_badge_lastcheck);
+		}
 
 		// Update last check value
-		update_option( 'tmsm_woocommerce_onsale_badge_lastcheck', date('Y-m-d'), false);
-
-		// Delete post metas
-		delete_post_meta_by_key( '_tmsm_woocommerce_onsale_badge' );
-		delete_post_meta_by_key( '_tmsm_woocommerce_onsale_alert' );
+		$result = update_option( 'tmsm_woocommerce_onsale_badge_lastcheck', date('Y-m-d'), true);
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			error_log('Result saving new date: '.$result);
+		}
 
 		// Check if the last checked value was created
-		if($tmsm_woocommerce_onsale_badge_lastcheck == false){
+		if($tmsm_woocommerce_onsale_badge_lastcheck === false){
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 				error_log('Check not initiated yet');
 			}
 		}
 
 		// Check if last check was already done today
-		if($tmsm_woocommerce_onsale_badge_lastcheck == date('Y-m-d')){
+		if($tmsm_woocommerce_onsale_badge_lastcheck === date('Y-m-d')){
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 				error_log('Check already done today');
 			}
 			return;
 		}
 
-		self::findallproducts();
+		self::removesales();
+		self::createsales();
 
 		// Clear cache
 		if ( function_exists( 'rocket_clean_domain' ) ) {
@@ -120,31 +123,83 @@ class Tmsm_Woocommerce_Onsale_Badge_Public {
 	}
 
 	/**
-	 * Find all products
+	 * Remove sales
 	 */
-	private function findallproducts(){
+	private function removesales(){
+
+		// Get Products with sale special
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-			error_log('createproductmeta()');
+			error_log('Products currenctly with a special sale:');
+		}
+		$args = array(
+			'post_type' => 'product',
+			'fields'          => 'ids', // Only get post IDs
+			'posts_per_page'  => -1,
+			'meta_query' => array(
+				array(
+					'key' => '_tmsm_woocommerce_onsale_badge',
+					'value' => '', //The value of the field.
+					'compare' => '!=', //Conditional statement used on the value.
+				)
+			)
+		);
+		$products_withspecialsale_ids = get_posts( $args );
+
+		// Update transient "wc_products_onsale"
+		if(is_array($products_withspecialsale_ids) && count($products_withspecialsale_ids) > 0){
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				error_log('Products IDs to remove:');
+				error_log(var_export($products_withspecialsale_ids, true));
+			}
+			$product_ids_on_sale = get_transient( 'wc_products_onsale' );
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				error_log('Products IDs in sale:');
+				error_log(var_export($product_ids_on_sale, true));
+			}
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				error_log('Products IDs in sale after remove:');
+				$product_ids_on_sale = array_diff($product_ids_on_sale, $products_withspecialsale_ids);
+				error_log(var_export($product_ids_on_sale, true));
+			}
+			set_transient( 'wc_products_onsale', $product_ids_on_sale, DAY_IN_SECONDS * 30 );
+
 		}
 
+		// Delete post metas
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			error_log('Deleting post metas');
+		}
+		delete_post_meta_by_key( '_tmsm_woocommerce_onsale_badge' );
+		delete_post_meta_by_key( '_tmsm_woocommerce_onsale_alert' );
+
+	}
+
+	/**
+	 * Find all products
+	 */
+	private function createsales(){
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			error_log('Function createproductmeta()');
+		}
+
+		// Find all products
 		$active_products = get_posts([
 			'post_type' => 'product',
 			'post_status' => 'publish',
 			'posts_per_page' => -1,
 		]);
 
+		// Browse all products
 		if(is_array($active_products)){
 			foreach($active_products as $product){
 				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-					error_log(' ('.$product->ID.') '.$product->post_title );
+					error_log('('.$product->ID.') '.$product->post_title );
 				}
 				self::createproductmeta($product->ID);
 			}
 		}
 
-
 	}
-
 
 	/**
 	 * Create meta for badge and alert
@@ -240,7 +295,7 @@ class Tmsm_Woocommerce_Onsale_Badge_Public {
 							     && @$wcdpd_rule['bogo_receive_quantity'] == 1 ) {
 
 								$wcdpd_rule['badge'] = __( '2 for 1', 'tmsm-woocommerce-onsale-badge' );
-								$wcdpd_rule['alert'] = $wcdpd_rule['public_note'];
+								$wcdpd_rule['alert'] = $wcdpd_rule['public_note'].'<br>'.__( 'Simply put 2 products in your cart, and the discount will apply automatically.', 'tmsm-woocommerce-onsale-badge' );
 							}
 						}
 
