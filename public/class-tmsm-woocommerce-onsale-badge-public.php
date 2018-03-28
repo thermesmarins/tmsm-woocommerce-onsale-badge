@@ -115,11 +115,6 @@ class Tmsm_Woocommerce_Onsale_Badge_Public {
 		self::removesales();
 		self::createsales();
 
-		// Clear cache
-		if ( function_exists( 'rocket_clean_domain' ) ) {
-			rocket_clean_domain();
-		}
-
 	}
 
 	/**
@@ -172,6 +167,11 @@ class Tmsm_Woocommerce_Onsale_Badge_Public {
 		delete_post_meta_by_key( '_tmsm_woocommerce_onsale_badge' );
 		delete_post_meta_by_key( '_tmsm_woocommerce_onsale_alert' );
 
+		// Clear cache
+		if ( function_exists( 'rocket_clean_domain' ) ) {
+			rocket_clean_domain();
+		}
+
 	}
 
 	/**
@@ -199,6 +199,10 @@ class Tmsm_Woocommerce_Onsale_Badge_Public {
 			}
 		}
 
+		// Cache preloading
+		if ( function_exists( 'run_rocket_sitemap_preload' ) ) {
+			run_rocket_sitemap_preload();
+		}
 	}
 
 	/**
