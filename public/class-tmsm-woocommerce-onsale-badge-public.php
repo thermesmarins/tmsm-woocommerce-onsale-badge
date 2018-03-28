@@ -290,7 +290,7 @@ class Tmsm_Woocommerce_Onsale_Badge_Public {
 
 						}
 
-						//  Discount type
+						//  Discount type bogo_xx_repeat
 						if ( @$wcdpd_rule['method'] == 'bogo_xx_repeat' ) {
 							if ( @$wcdpd_rule['quantities_based_on'] == 'individual__product'
 							     && @$wcdpd_rule['bogo_pricing_value'] == '100'
@@ -300,6 +300,19 @@ class Tmsm_Woocommerce_Onsale_Badge_Public {
 
 								$wcdpd_rule['badge'] = __( '2 for 1', 'tmsm-woocommerce-onsale-badge' );
 								$wcdpd_rule['alert'] = $wcdpd_rule['public_note'].'<br>'.__( 'Simply put 2 products in your cart, and the discount will apply automatically.', 'tmsm-woocommerce-onsale-badge' );
+							}
+						}
+
+						//  Discount type bogo
+						if ( @$wcdpd_rule['method'] == 'bogo' ) {
+							if ( @$wcdpd_rule['quantities_based_on'] == 'cumulative__all'
+							     && @$wcdpd_rule['bogo_pricing_value'] == '100'
+							     && @$wcdpd_rule['bogo_pricing_method'] == 'discount__percentage'
+							     && @$wcdpd_rule['bogo_purchase_quantity'] == 1
+							     && @$wcdpd_rule['bogo_receive_quantity'] == 1 ) {
+
+								$wcdpd_rule['badge'] = __( 'Sale!', 'woocommerce' );
+								$wcdpd_rule['alert'] = $wcdpd_rule['public_note'];
 							}
 						}
 

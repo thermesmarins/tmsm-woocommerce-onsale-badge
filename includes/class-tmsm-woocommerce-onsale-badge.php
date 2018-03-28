@@ -168,6 +168,7 @@ class Tmsm_Woocommerce_Onsale_Badge {
 	 */
 	private function define_public_hooks() {
 
+
 		$plugin_public = new Tmsm_Woocommerce_Onsale_Badge_Public( $this->get_plugin_name(), $this->get_version() );
 
 		if ( is_plugin_active( 'wc-dynamic-pricing-and-discounts/wc-dynamic-pricing-and-discounts.php' ) ) {
