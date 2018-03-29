@@ -1,4 +1,4 @@
-.woocommerce ul.products li.product .price del{
+.woocommerce ul.products li.product.special-sale .price del{
   display: none;
 }
 .single-product .product.special-sale .price del{
