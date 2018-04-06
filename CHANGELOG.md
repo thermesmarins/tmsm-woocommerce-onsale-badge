@@ -3,6 +3,8 @@
 ### 1.0.3: April 6th, 2018
 * Fix - Hide regular price on special sale 
 * Format alert in a div with paragraphs inside
+* Don't display "on sale" in admin
+* Plugin icon (TMSM logo)
 
 ### 1.0.2: March 28th, 2018
 * Handle "Buy 1X Get 1Y for free" sales
