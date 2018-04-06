@@ -123,9 +123,6 @@ class Tmsm_Woocommerce_Onsale_Badge_Public {
 	private function removesales(){
 
 		// Get Products with sale special
-		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-			error_log('Products currenctly with a special sale:');
-		}
 		$args = array(
 			'post_type' => 'product',
 			'fields'          => 'ids', // Only get post IDs
@@ -133,31 +130,35 @@ class Tmsm_Woocommerce_Onsale_Badge_Public {
 			'meta_query' => array(
 				array(
 					'key' => '_tmsm_woocommerce_onsale_badge',
-					'value' => '', //The value of the field.
-					'compare' => '!=', //Conditional statement used on the value.
+					'value' => '',
+					'compare' => '!=',
 				)
 			)
 		);
 		$products_withspecialsale_ids = get_posts( $args );
 
 		// Update transient "wc_products_onsale"
-		if(is_array($products_withspecialsale_ids) && count($products_withspecialsale_ids) > 0){
+		if(is_array($products_withspecialsale_ids)){
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-				error_log('Products IDs to remove:');
+				error_log('Products currenctly with a special sale:');
 				error_log(var_export($products_withspecialsale_ids, true));
 			}
 			$product_ids_on_sale = get_transient( 'wc_products_onsale' );
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-				error_log('Products IDs in sale:');
+				error_log('Products IDs in sale (transient):');
 				error_log(var_export($product_ids_on_sale, true));
 			}
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 				error_log('Products IDs in sale after remove:');
-				$product_ids_on_sale = array_diff($product_ids_on_sale, $products_withspecialsale_ids);
+				if(is_array($product_ids_on_sale)){
+					$product_ids_on_sale = array_diff($product_ids_on_sale, $products_withspecialsale_ids);
+				}
+				else{
+					$product_ids_on_sale = $products_withspecialsale_ids;
+				}
 				error_log(var_export($product_ids_on_sale, true));
 			}
 			set_transient( 'wc_products_onsale', $product_ids_on_sale, DAY_IN_SECONDS * 30 );
-
 		}
 
 		// Delete post metas
@@ -386,8 +387,10 @@ class Tmsm_Woocommerce_Onsale_Badge_Public {
 	 * @return string
 	 */
 	private function get_alert($product){
+
 		$alert = $product->get_meta('_tmsm_woocommerce_onsale_alert', true);
 		return $alert;
+
 	}
 
 	/**
@@ -400,10 +403,13 @@ class Tmsm_Woocommerce_Onsale_Badge_Public {
 	 */
 	public function display_badge($on_sale, $product){
 
-		$specialrule_is_on_sale = self::specialrule_is_on_sale($product);
-		if($specialrule_is_on_sale === true){
-			$on_sale = true;
+		if(!is_admin()){
+			$specialrule_is_on_sale = self::specialrule_is_on_sale($product);
+			if($specialrule_is_on_sale === true){
+				$on_sale = true;
+			}
 		}
+
 		return $on_sale;
 
 	}
