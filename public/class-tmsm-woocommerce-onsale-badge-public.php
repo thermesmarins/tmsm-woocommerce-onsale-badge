@@ -300,7 +300,7 @@ class Tmsm_Woocommerce_Onsale_Badge_Public {
 							     && @$wcdpd_rule['bogo_receive_quantity'] == 1 ) {
 
 								$wcdpd_rule['badge'] = __( '2 for 1', 'tmsm-woocommerce-onsale-badge' );
-								$wcdpd_rule['alert'] = $wcdpd_rule['public_note'].'<br>'.__( 'Simply put 2 products in your cart, and the discount will apply automatically.', 'tmsm-woocommerce-onsale-badge' );
+								$wcdpd_rule['alert'] = $wcdpd_rule['public_note']."\n".__( 'Simply put 2 products in your cart, and the discount will apply automatically.', 'tmsm-woocommerce-onsale-badge' );
 							}
 						}
 
@@ -443,7 +443,8 @@ class Tmsm_Woocommerce_Onsale_Badge_Public {
 		if($specialrule_is_on_sale) {
 			$alert = self::get_alert( $product );
 			if ( ! empty( $alert ) ) {
-				echo sprintf( '<p class="woocommerce-info woocommerce-specialsale">%s</p>', $alert );
+				$alert = '<p class="woocommerce-specialsale-heading">'.str_replace('<br>', '</p><p>',nl2br($alert)).'</p>';
+				echo sprintf( '<div class="woocommerce-info woocommerce-specialsale">%s</div>', $alert );
 			}
 		}
 

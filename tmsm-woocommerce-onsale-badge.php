@@ -9,7 +9,7 @@
  * Plugin Name:       TMSM WooCommerce On Sale Badge
  * Plugin URI:        https://github.com/thermesmarins/tmsm-woocommerce-onsale-badge
  * Description:       WooCommerce on sale badge and alert compatible with Dynamic Pricing & Discounts plugin
- * Version:           1.0.2
+ * Version:           1.0.3
  * Author:            Nicolas Mollet
  * Author URI:        https://github.com/nicomollet
  * Requires PHP:      5.6
@@ -31,7 +31,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'TMSM_WOOCOMMERCE_ONSALE_BADGE_VERSION', '1.0.2' );
+define( 'TMSM_WOOCOMMERCE_ONSALE_BADGE_VERSION', '1.0.3' );
 
 /**
  * The code that runs during plugin activation.
