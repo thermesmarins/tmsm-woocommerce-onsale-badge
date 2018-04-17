@@ -443,7 +443,7 @@ class Tmsm_Woocommerce_Onsale_Badge_Public {
 		if($specialrule_is_on_sale) {
 			$alert = self::get_alert( $product );
 			if ( ! empty( $alert ) ) {
-				$alert = '<p class="woocommerce-specialsale-heading">'.str_replace('<br>', '</p><p>',nl2br($alert)).'</p>';
+				$alert = '<p class="woocommerce-specialsale-heading">'.str_replace(['<br>', '<br/>', '<br />'], '</p><p>',nl2br($alert)).'</p>';
 				echo sprintf( '<div class="woocommerce-info woocommerce-specialsale">%s</div>', $alert );
 			}
 		}
