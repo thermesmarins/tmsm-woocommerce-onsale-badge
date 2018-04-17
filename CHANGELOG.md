@@ -1,4 +1,5 @@
 ### Unreleased ###
+* Fix markup in alert
 
 ### 1.0.3: April 6th, 2018
 * Fix - Hide regular price on special sale 
