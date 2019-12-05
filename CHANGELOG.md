@@ -1,4 +1,4 @@
-### Unreleased ###
+### 1.0.4: December 5th, 2019
 * Fix markup in alert
 
 ### 1.0.3: April 6th, 2018
