@@ -1,3 +1,5 @@
+* Fix CRITICAL Uncaught Error: [] operator not supported for strings
+
 ### 1.0.4: December 5th, 2019
 * Fix markup in alert
 

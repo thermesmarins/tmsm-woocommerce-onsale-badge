@@ -345,10 +345,10 @@ class Tmsm_Woocommerce_Onsale_Badge_Public {
 
 				// Update transient "wc_products_onsale"
 				$product_ids_on_sale = get_transient( 'wc_products_onsale' );
-				if(!in_array($product_id, $product_ids_on_sale)){
+				if ( is_array($product_ids_on_sale) && ! in_array( $product_id, $product_ids_on_sale ) ) {
 					$product_ids_on_sale[] = $product_id;
 					set_transient( 'wc_products_onsale', $product_ids_on_sale, DAY_IN_SECONDS * 30 );
-			    }
+				}
 
 			}
 
