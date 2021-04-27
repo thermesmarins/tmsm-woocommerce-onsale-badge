@@ -1,3 +1,4 @@
+### 1.0.5: April 27th, 2021
 * Fix CRITICAL Uncaught Error: [] operator not supported for strings
 
 ### 1.0.4: December 5th, 2019
